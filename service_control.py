@@ -1,29 +1,32 @@
-import subprocess
 import os
+import subprocess
 import time
 
-service = "gunicorn"
 
-while True:
-    p = subprocess.Popen(["systemctl","is-active",service], stdout=subprocess.PIPE)
-    (output,err) = p.communicate()
-    output = output.decode('utf-8')
-    print("cevap = " , output , type(output))
-    if "inactive" in output:
-        print("aktif değil")
-        command = "systemctl restart gunicorn.service"
-        p = os.system('echo %s|sudo -S %s' % ("Recep123", command))
-        print("tekrar başlatılıyor..")
-        time.sleep(2)
-        p = subprocess.Popen(["systemctl","is-active",service], stdout=subprocess.PIPE)
-        (outoput,err) = p.communicate()
-        output = outoput.decode('utf-8')
-        print(output)
-   
+def check_service(delay, service_name):
+    while True:
+        p = subprocess.Popen(
+            ["systemctl", "is-active", service_name], stdout=subprocess.PIPE
+        )
+        (output, err) = p.communicate()
+        output = output.decode("utf-8")
+        print("Answer = ", output, type(output))
+        if "inactive" in output:
+            print("deactivate")
+            command = "systemctl restart gunicorn.service"
+            p = os.system("echo %s|sudo -S %s" % ("Root Password", command)) # You must fill in the root password 
+            print("Restart service")
+            time.sleep(2) # waiting for it to restart
+            p = subprocess.Popen(
+                ["systemctl", "is-active", service_name], stdout=subprocess.PIPE
+            )
+            (outoput, err) = p.communicate()
+            output = outoput.decode("utf-8")
+            print(output)
+        else:
+            print("everything is okey")
+    1
+        time.sleep(delay)
 
-    else:
-        print("everything is okey")
 
-       
-    time.sleep(3)
-
+check_service(3, "gunicorn")
