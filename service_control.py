@@ -25,7 +25,7 @@ def check_service(delay, service_name):
             print(output)
         else:
             print("everything is okey")
-    1
+   
         time.sleep(delay)
 
 
