@@ -11,9 +11,9 @@ def check_service(delay, service_name):
         (output, err) = p.communicate()
         output = output.decode("utf-8")
         print("Answer = ", output, type(output))
-        if "inactive" in output:
+        if "inactive" in output: # Alternative --> "active" not in output
             print("deactivate")
-            command = "systemctl restart gunicorn.service"
+            command = "systemctl restart " + str(service_name)
             p = os.system("echo %s|sudo -S %s" % ("Root Password", command)) # You must fill in the root password 
             print("Restart service")
             time.sleep(2) # waiting for it to restart
